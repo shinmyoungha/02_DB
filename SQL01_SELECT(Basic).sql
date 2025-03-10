@@ -1,0 +1,144 @@
+/*
+ * TB_GRADE 
+ * TB_ STUDENT
+ * TB_CLASS_PROFESSOR
+ * TB_PROFESSOR
+ * TB_CLASS
+ * TB_DEPARTMENT
+ * */
+
+SELECT * FROM TB_CLASS; 
+SELECT * FROM TB_CLASS_PROFESSOR; 
+SELECT * FROM TB_DEPARTMENT; 
+SELECT * FROM TB_GRADE; 
+SELECT * FROM TB_PROFESSOR;
+SELECT * FROM TB_STUDENT;
+/*
+ * 1번 
+ * 학과 명 : DEPARTMENT_NAME
+ * 계열 : CATEGORY
+ * */
+SELECT DEPARTMENT_NAME AS "학과 명", CATEGORY AS 계열
+FROM TB_DEPARTMENT;
+
+/*
+ * 2번
+ * 학과의 학과 정원 나타내기
+ * 학과 명 : DEPARTMENT_NAME
+ * 총원 :  CAPACITY
+ * */
+SELECT DEPARTMENT_NAME || '의 정원은' || CAPACITY || '명 입니다'  AS "학과별 정원"
+FROM TB_DEPARTMENT;
+
+
+ 
+/*
+ * 3번
+ * 학생 이름 : STUDENT_NAME
+ * 국어 국문학과 : DEPARTMENT_NO 001
+ * 휴학 여부 : ABSENCE_YN
+ * 여학생 STUDENT_SSN = 2
+ * 
+ * */
+
+SELECT STUDENT_NAME
+FROM TB_STUDENT
+WHERE SUBSTR(STUDENT_SSN, 8,1) = 2 AND ABSENCE_YN = 'Y' AND DEPARTMENT_NO = 001;
+
+/*
+ * 4번
+ * 도서 장치 연체자 : A513079, A513090, A513091, A513110, A513119
+ * 학번 : STUDENT_NO
+ * 학생 이름 : STUDENT_NAME
+ * */
+
+SELECT STUDENT_NAME
+FROM TB_STUDENT
+WHERE STUDENT_NO = 'A513079' OR STUDENT_NO = 'A513090' OR STUDENT_NO = 'A513091' OR
+STUDENT_NO = 'A513110' OR STUDENT_NO = 'A513119'
+ORDER BY STUDENT_NAME DESC;
+
+/*
+ * 5번
+ * 입학 정원 20이상 30이하
+ * 학과 이름 : DEPARTMENT_NAME
+ * 정원 : CAPACITY
+ * */
+
+SELECT DEPARTMENT_NAME, CAPACITY
+FROM TB_DEPARTMENT
+WHERE CAPACITY BETWEEN 20 AND 30;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
