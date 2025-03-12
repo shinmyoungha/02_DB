@@ -17,14 +17,14 @@
 
 
 -- 1) 노옹철 사원의 부서코드 조회(서브쿼리 역할)
-SELECT DEPT_CODE
-FROM EMPLOYEE
-WHERE EMP_NAME = '노옹철'; -- 'D9'
+SELECT DEPT_CODE                   -- 부서코드 검색
+FROM EMPLOYEE                      -- 직원 테이블에서
+WHERE EMP_NAME = '노옹철'; -- 'D9'   -- 조건은 사원 이름이 노옹철
 
 -- 2) 부서코드가 'D9'인 직원이 이름, 부서코드 조회 (메인쿼리)
-SELECT EMP_NAME, DEPT_CODE
-FROM EMPLOYEE
-WHERE DEPT_CODE = 'D9';
+SELECT EMP_NAME, DEPT_CODE         -- 사원 이름, 부서코드 검색
+FROM EMPLOYEE                      -- 직원 테이블에서
+WHERE DEPT_CODE = 'D9';            -- 조건은 부서코드가 D9
 
 -- 3) 부서코드가 노옹철 사원과 같은 소속의 직원 명단 조회
 --> 위의 2개의 단계를 하나의 쿼리로!!
@@ -90,13 +90,16 @@ WHERE SALARY >= (SELECT CEIL(AVG(SALARY))
 
 -- 전 직원의 급여 평균보다 많은(초과) 급여를 받는 직원의
 -- 이름, 직급명, 부서명, 급여를 직급 순으로 정렬하여 조회
+SELECT * FROM JOB;
+SELECT * FROM EMPLOYEE;
+SELECT * FROM DEPARTMENT;
 
-SELECT EMP_NAME, JOB_NAME, DEPT_TITLE, SALARY
-FROM EMPLOYEE 
-JOIN JOB USING(JOB_CODE)
-LEFT JOIN DEPARTMENT ON(DEPT_CODE = DEPT_ID)
-WHERE SALARY > (SELECT AVG(SALARY) FROM EMPLOYEE)
-ORDER BY JOB_CODE; 
+SELECT EMP_NAME, JOB_NAME, DEPT_TITLE, SALARY          -- 사원 이름, 직업명, 직급명, 급여
+FROM EMPLOYEE                                          -- 사원 테이블
+JOIN JOB USING(JOB_CODE)                               -- 조인한다 JOB 테이블이랑    USING(JOB_CODE) : 공통으로 있는 JOB_CODE기준으로
+LEFT JOIN DEPARTMENT ON(DEPT_CODE = DEPT_ID)           -- DEPARTMENT 테이블을 EMPLOYEE 테이블에 조인한다  ON(DEPT_CODE = DEPT_ID) : 부서 코드와 부서 아이디를 연결하는 조건
+WHERE SALARY > (SELECT AVG(SALARY) FROM EMPLOYEE)      -- 조건문 : 급여가 직원의 평균 급여보다 많이 받냐
+ORDER BY JOB_CODE;                                     -- 직급 코드
 -- SELECT 절에 명시되지 않은 컬럼이라도
 -- FROM, JOIN으로 인해 테이블상 존재하는 컬럼이라면
 -- ORDER BY절 사용 가능!
@@ -110,26 +113,26 @@ ORDER BY JOB_CODE;
 SELECT MIN(SALARY) FROM EMPLOYEE; -- 1,380,000
 
 -- 메인쿼리 + 서브쿼리
-SELECT EMP_ID, EMP_NAME, JOB_NAME, DEPT_CODE, SALARY, HIRE_DATE
-FROM EMPLOYEE
-JOIN JOB USING(JOB_CODE)
-WHERE SALARY = (SELECT MIN(SALARY) FROM EMPLOYEE);
-
-
--- 노옹철 사원의 급여보다 많이(초과) 받는 직원의
--- 사번, 이름, 부서명, 직급명, 급여 조회
+SELECT EMP_ID, EMP_NAME, JOB_NAME, DEPT_CODE, SALARY, HIRE_DATE      -- 사원 번호, 사원 이름, 직급명, 부서코드, 급여, 입사일
+FROM EMPLOYEE                                                        -- 사원 테이블
+JOIN JOB USING(JOB_CODE)                                             -- 조인한다 잡 테이블이랑 기준은 JOB_CODE(직급코드)
+WHERE SALARY = (SELECT MIN(SALARY) FROM EMPLOYEE);                   -- 조건문 : 급여 = 사원 테이블의 최소 급여
+                                                                     
+                                                                     
+-- 노옹철 사원의 급여보다 많이(초과) 받는 직원의                                  
+-- 사번, 이름, 부서명, 직급명, 급여 조회                                      
 
 -- 서브쿼리 (노옹철 사원의 급여 조회)
-SELECT SALARY
-FROM EMPLOYEE
-WHERE EMP_NAME = '노옹철';
+SELECT SALARY                                                        -- 급여 검색
+FROM EMPLOYEE                                                        -- 사원 테이블 
+WHERE EMP_NAME = '노옹철';                                             -- 조건문 : 사원 이름이 노옹철
 
 -- 메인쿼리
-SELECT EMP_ID, EMP_NAME, DEPT_TITLE, JOB_NAME, SALARY
-FROM EMPLOYEE
-JOIN JOB USING(JOB_CODE)
-LEFT JOIN DEPARTMENT ON (DEPT_CODE = DEPT_ID)
-WHERE SALARY > (SELECT SALARY
+SELECT EMP_ID, EMP_NAME, DEPT_TITLE, JOB_NAME, SALARY            -- 사원 번호, 사원 이름, 부서명, 직급명, 급여  검색
+FROM EMPLOYEE                                                    -- 사원 테이블
+JOIN JOB USING(JOB_CODE)                                         -- 조인한다 잡 테이블이랑 기준은 JOB_CODE(직급코드)
+LEFT JOIN DEPARTMENT ON (DEPT_CODE = DEPT_ID)                    -- DEPARTMENT 테이블을 EMPLOYEE 테이블에 조인한다. ON(DEPT_CODE = DEPT_ID) : 부서 코드와 부서 아이디를 연결하는 조건
+WHERE SALARY > (SELECT SALARY                                    -- 조건문 : 급여가 노옹철 사원의 급여보다 많이(초과) 받는 직원
 							 	FROM EMPLOYEE
 							 	WHERE EMP_NAME = '노옹철');
 
